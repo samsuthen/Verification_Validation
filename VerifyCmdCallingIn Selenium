@@ -1,0 +1,87 @@
+package Pack4;
+
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestResult;
+import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import Framework.data;
+import Framework.key;
+ 
+
+public class Class1 extends key{
+
+
+	public static String TCName = "";
+
+	@BeforeMethod
+	public static void start() {
+		gp = new FirefoxDriver();
+		gp.get("file:///C:/Users/ILA/Desktop/test/demoqa.com/index.html");
+		gp.manage().window().maximize();
+	}
+
+	@AfterMethod
+	public static void close(ITestResult ss) {
+		try {
+			if (!ss.isSuccess()) {
+				File sam = ((TakesScreenshot) gp)
+						.getScreenshotAs(OutputType.FILE);
+				FileUtils.copyFile(sam, new File(
+						"C:/Users/ILA/Desktop/Gana/Screenshot/" + TCName
+								+ ".png"));
+			}
+		} catch (Exception e) {
+			System.out.println("unable to take screenshot for TC - " + TCName);
+		}
+
+		gp.quit();
+	}
+
+	@Test
+	public static void TC01() {
+
+		for (int i = 2; i <= 4; i++) {
+	 int z = i;
+			String TC = data.retrieve(1, z);
+			String FN = data.retrieve(2, z);
+			String LN = data.retrieve(3, z);
+			String Country = data.retrieve(4, z);
+			TCName = TC;
+			Reporter.log("Reg - M1");
+			gp.get("file:///C:/Users/ILA/Desktop/test/demoqa.com/index.html");
+			gp.findElement(By.xpath(".//*[@id='menu-item-374']")).click();
+			try {
+				Thread.sleep(15000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			////////////////////////////// Verification ///////////////////////////////////
+			verifyElement(".//*[@id='name_3_firstname']", "Firstname");
+			verifyText("//*[@id='post-49']/header/h1", "Registration");
+			
+			///////////////////////////////////////////////////////////////////////
+			gp.findElement(By.xpath(".//*[@id='name_3_firstname']")).sendKeys(
+					FN);
+			 
+			`
+			Reporter.log(TC + " Data - reg successfully");
+
+		}
+	}
+ 
+
+}
