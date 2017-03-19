@@ -1,0 +1,39 @@
+package Framework;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Reporter;
+
+public class key {
+	
+	
+	public static WebDriver gp;
+	
+	
+	
+	public static void verifyElement (String XPATH, String Element)
+	{
+		try {
+			if (gp.findElement(By.xpath( XPATH)).isDisplayed()) {
+				Reporter.log("Verifyed the Expected Element -  "+Element);
+			}
+		} catch (Exception e) {
+			Reporter.log("Unable to verify -  "+Element);
+			//assert fasle;
+		}
+	}
+	
+	public static void verifyText (String XPATH, String ExpectedText)
+	{
+		String v = gp.findElement(By.xpath(XPATH)).getText();
+
+		if (v.equals(ExpectedText)) {
+			Reporter.log("Verifyed the Expected Text - " + ExpectedText);
+		} else {
+			Reporter.log("Unable to verify the text -  "+ExpectedText);
+		
+		}
+	
+	}
+	
+}
